@@ -9,10 +9,10 @@ export const bookApi = createApi({
             query: () => '/books'
         }),
         updatedBook: build.mutation({
-            query: ({ bookId, ...body }) => ({
+            query: ({ bookId, data }) => ({
                 url: `/edit-book/${bookId}`,
                 method: 'PUT',
-                body
+                body: data, headers: { 'Content-Type': 'application/json' },
             }),
             invalidatesTags: ["books"]
         }),
@@ -30,8 +30,11 @@ export const bookApi = createApi({
                 body
             }), invalidatesTags: ["books"]
         }),
+        getSingleBook: build.query({
+            query: (bookId) => `/books/${bookId}`,
+        }),
 
     })
 })
 
-export const { useGetBookQuery, useDeleteBookMutation, useAddNewBookMutation, useUpdatedBookMutation } = bookApi
+export const { useGetBookQuery, useDeleteBookMutation, useAddNewBookMutation, useUpdatedBookMutation, useGetSingleBookQuery } = bookApi

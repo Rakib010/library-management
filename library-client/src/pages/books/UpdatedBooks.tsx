@@ -1,12 +1,6 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,54 +11,58 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { useUpdatedBookMutation } from "@/redux/api/baseApi";
-import { toast } from "sonner";
-import type { BookFormValues } from "@/types";
-import { useState } from "react";
 import {
-  SelectContent,
-  SelectItem,
+  Select,
   SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectItem,
 } from "@/components/ui/select";
-import { Select } from "@radix-ui/react-select";
+import {
+  useGetSingleBookQuery,
+  useUpdatedBookMutation,
+} from "@/redux/api/baseApi";
+import { toast } from "sonner";
+import type { BookFormValues } from "@/types";
 
-export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
-  const [open, setOpen] = useState(false);
-  const form = useForm<BookFormValues>({ defaultValues: book });
+export const UpdatedBooks = () => {
+  const { bookId } = useParams();
+  const navigate = useNavigate();
 
-  const { handleSubmit, control } = form;
-
+  const { data: book, isLoading } = useGetSingleBookQuery(bookId);
   const [updateBook] = useUpdatedBookMutation();
+
+  const form = useForm<BookFormValues>();
+  const { control, handleSubmit, reset } = form;
+
+  useEffect(() => {
+    if (book?.data) {
+      reset(book.data);
+    }
+  }, [book, reset]);
 
   const onSubmit = async (data: BookFormValues) => {
     try {
-      const res = await updateBook({ bookId: book._id, data }).unwrap();
-      console.log(res);
+      await updateBook({ bookId, body: data }).unwrap();
       toast.success("Book updated successfully!");
-      form.reset(res.updatedBook || data);
-      setOpen(false);
-    } catch (err: any) {
-      toast.error(err?.data?.message || "Update failed");
+      navigate("/allBooks");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Update failed");
     }
   };
 
+  if (isLoading) return <p className="text-center">Loading book data...</p>;
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" variant="outline">
-          Edit
-        </Button>
-      </DialogTrigger>
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg border border-gray-200 mt-10">
+      <h2 className="text-3xl font-bold mb-8 text-gray-900 text-center">
+        Update Book Details
+      </h2>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit Book: {book.title}</DialogTitle>
-        </DialogHeader>
-
-        <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          {/* Two column grid for inputs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Title */}
             <FormField
               control={control}
@@ -74,7 +72,11 @@ export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter book title" {...field} />
+                    <Input
+                      placeholder="Enter book title"
+                      {...field}
+                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,7 +92,11 @@ export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
                 <FormItem>
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter author's name" {...field} />
+                    <Input
+                      placeholder="Enter author's name"
+                      {...field}
+                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,10 +111,7 @@ export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Genre</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a genre" />
@@ -137,22 +140,11 @@ export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
                 <FormItem>
                   <FormLabel>ISBN</FormLabel>
                   <FormControl>
-                    <Input placeholder="ISBN Number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Description */}
-            <FormField
-              control={control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Short summary of the book" {...field} />
+                    <Input
+                      placeholder="ISBN Number"
+                      {...field}
+                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -165,7 +157,7 @@ export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
               name="copies"
               rules={{
                 required: "Copies are required",
-                min: { value: 0, message: "Copies must be at least 0" },
+                min: { value: 0, message: "Must be 0 or more" },
               }}
               render={({ field }) => (
                 <FormItem>
@@ -175,24 +167,49 @@ export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
                       type="number"
                       placeholder="Number of copies"
                       {...field}
+                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+          </div>
 
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline" type="button">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit">Save Book</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+          {/* Description textarea full width */}
+          <FormField
+            control={control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <textarea
+                    placeholder="Short summary"
+                    {...field}
+                    rows={4}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-4">
+            <Button variant="outline" onClick={() => navigate(-1)}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+            >
+              Save Book
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };

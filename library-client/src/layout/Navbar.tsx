@@ -4,7 +4,6 @@ import { BookOpen } from "lucide-react";
 export default function Navbar() {
   return (
     <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-        
       {/* Logo Section */}
       <div className="flex items-center gap-2">
         <BookOpen className="text-indigo-600 w-6 h-6" />
