@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -18,58 +18,49 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { useUpdatedBookMutation } from "@/redux/api/baseApi";
+import { toast } from "sonner";
 import type { BookFormValues } from "@/types";
-import { useAddNewBookMutation } from "@/redux/api/baseApi";
+import { useState } from "react";
 import {
-  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
-import { useNavigate } from "react-router";
+import { Select } from "@radix-ui/react-select";
 
-export const AddBook = () => {
-  const form = useForm<BookFormValues>();
-  const { handleSubmit, control, setError } = form;
-  const navigate = useNavigate();
+export const UpdatedBooks = ({ book }: { book: BookFormValues }) => {
+  const [open, setOpen] = useState(false);
+  const form = useForm<BookFormValues>({ defaultValues: book });
 
-  const [createBook] = useAddNewBookMutation();
+  const { handleSubmit, control } = form;
+
+  const [updateBook] = useUpdatedBookMutation();
 
   const onSubmit = async (data: BookFormValues) => {
     try {
-      const newBook = {
-        ...data,
-        available: true,
-      };
-      await createBook(newBook).unwrap();
-      toast.success("Book added successfully!");
-      navigate("/allBooks");
-      form.reset();
-    } catch (error: any) {
-      if (error?.data?.errors) {
-        error.data.errors.forEach((err: any) => {
-          setError(err.field as keyof BookFormValues, {
-            type: "server",
-            message: err.message,
-          });
-        });
-      } else {
-        toast.error(error?.data?.message || "Something went wrong");
-      }
+      const res = await updateBook({ bookId: book._id, data }).unwrap();
+      console.log(res);
+      toast.success("Book updated successfully!");
+      form.reset(res.updatedBook || data);
+      setOpen(false);
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Update failed");
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add New Book</Button>
+        <Button size="sm" variant="outline">
+          Edit
+        </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle>📚 New Book Information</DialogTitle>
+          <DialogTitle>Edit Book: {book.title}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>

@@ -1,9 +1,23 @@
-import { useGetBookQuery } from "@/redux/api/baseApi";
-import BookCard from "./BookCard";
+import { useDeleteBookMutation, useGetBookQuery } from "@/redux/api/baseApi";
 
-export default function AllBooks() {
-  const { data: books, isLoading, isError } = useGetBookQuery(undefined);
-  console.log(books);
+import type { BookFormValues } from "@/types";
+import { BookCard } from "./BookCard";
+
+export const AllBooks = () => {
+  const {
+    data: books,
+    isLoading,
+    isError,
+  } = useGetBookQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    pollingInterval: 1000,
+  });
+  const [deleteBook] = useDeleteBookMutation();
+
+  const handleDelete = (id: string) => {
+    deleteBook(id);
+  };
 
   return (
     <div className="p-6">
@@ -14,10 +28,10 @@ export default function AllBooks() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {!isLoading &&
-          books?.data?.map((book: any, index: number) => (
-            <BookCard key={index} book={book} />
+          books?.data?.map((book: BookFormValues, index: number) => (
+            <BookCard key={index} book={book} onDelete={handleDelete} />
           ))}
       </div>
     </div>
   );
-}
+};
