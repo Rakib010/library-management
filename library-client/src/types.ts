@@ -14,4 +14,5 @@ export type BorrowFormValues = {
     book: BookFormValues
     totalQuantity: number;
     dueDate: string;
+    quantity: number
 };

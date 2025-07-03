@@ -18,8 +18,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type { BookFormValues, BorrowFormValues } from "@/types";
+import { useAddNewBorrowMutation } from "@/redux/api/borrowApi";
+import { toast } from "sonner";
 
 export const BookCard = ({
   book,
@@ -30,6 +32,24 @@ export const BookCard = ({
 }) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [borrowOpen, setBorrowOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const [borrowBook] = useAddNewBorrowMutation();
+
+  const borrowForm = useForm<BorrowFormValues>();
+  const { control, handleSubmit, reset } = borrowForm;
+
+  const onSubmitBorrow = async (data: BorrowFormValues) => {
+    await borrowBook({
+      bookId: book._id,
+      quantity: data.quantity,
+      dueDate: data.dueDate,
+    }).unwrap();
+    toast.success("📘 Borrow added successfully!");
+    navigate("/borrowSummary");
+    setBorrowOpen(false);
+    reset();
+  };
 
   // handleDelete
   const handleConfirmDelete = () => {
@@ -37,25 +57,12 @@ export const BookCard = ({
     setDeleteOpen(false);
   };
 
-  const borrowForm = useForm<BorrowFormValues>();
-
-  const { control, handleSubmit, reset } = borrowForm;
-
-  const onSubmitBorrow = (data: BorrowFormValues) => {
-    if (data.quantity > book.copies) {
-      alert(`Quantity cannot exceed available copies (${book.copies})`);
-      return;
-    }
-    setBorrowOpen(false);
-    reset();
-  };
-
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 space-y-3 hover:shadow-lg transition-transform transform hover:-translate-y-1 duration-300">
+      {/* Book List */}
       <h3 className="text-xl font-bold text-gray-800 border-b pb-2">
         {book.title}
       </h3>
-
       <div className="space-y-1 text-sm text-gray-600">
         <p>
           <span className="font-medium text-gray-700">Author:</span>{" "}
@@ -87,18 +94,21 @@ export const BookCard = ({
       </div>
 
       <div className="flex flex-wrap gap-2 pt-4">
+        {/* Book Details */}
         <Button variant="outline" size="sm" className="hover:bg-gray-100">
           <Link to={`/bookDetails/${book._id}`}>View</Link>
         </Button>
 
+        {/* Updated book */}
         <Button
           variant="outline"
           size="sm"
-          className="hover:bg-blue-100 text-blue-700"
+          className="hover:bg-blue-100 text-indigo-700"
         >
           <Link to={`/editBook/${book._id}`}>Edit</Link>
         </Button>
 
+        {/* Delete book */}
         <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
           <DialogTrigger asChild>
             <Button variant="destructive" size="sm">
@@ -123,6 +133,7 @@ export const BookCard = ({
           </DialogContent>
         </Dialog>
 
+        {/* Borrow book */}
         <Dialog open={borrowOpen} onOpenChange={setBorrowOpen}>
           <DialogTrigger asChild>
             <Button

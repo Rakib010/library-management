@@ -12,7 +12,7 @@ export const bookApi = createApi({
             query: ({ bookId, data }) => ({
                 url: `/edit-book/${bookId}`,
                 method: 'PUT',
-                body: data, headers: { 'Content-Type': 'application/json' },
+                body: data,
             }),
             invalidatesTags: ["books"]
         }),

@@ -43,9 +43,10 @@ export const UpdatedBooks = () => {
 
   const onSubmit = async (data: BookFormValues) => {
     try {
-      await updateBook({ bookId, body: data }).unwrap();
+      await updateBook({ bookId, data }).unwrap();
       toast.success("Book updated successfully!");
       navigate("/allBooks");
+      reset();
     } catch (error: any) {
       toast.error(error?.data?.message || "Update failed");
     }

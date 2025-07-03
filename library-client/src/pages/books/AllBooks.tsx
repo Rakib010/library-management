@@ -9,9 +9,10 @@ export const AllBooks = () => {
     isLoading,
     isError,
   } = useGetBookQuery(undefined, {
+    pollingInterval: 1000,
     refetchOnFocus: true,
     refetchOnReconnect: true,
-    pollingInterval: 1000,
+    refetchOnMountOrArgChange: true,
   });
   const [deleteBook] = useDeleteBookMutation();
 

@@ -8,16 +8,15 @@ export const borrowApi = createApi({
         getBorrowSummary: build.query({
             query: () => '/borrow-summary'
         }),
-        /* addNewBorrow: build.mutation({
-            query: () => ({
-
-            })
-
-        }) */
-
-
+        addNewBorrow: build.mutation({
+            query: ({ bookId, quantity, dueDate }) => ({
+                url: `/borrow/${bookId}`,
+                method: 'POST',
+                body: { quantity, dueDate }
+            }), invalidatesTags: ["borrow"]
+        })
 
     })
 })
 
-export const { useGetBorrowSummaryQuery } = borrowApi
+export const { useGetBorrowSummaryQuery, useAddNewBorrowMutation } = borrowApi

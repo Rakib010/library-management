@@ -1,7 +1,10 @@
 import { useGetBorrowSummaryQuery } from "@/redux/api/borrowApi";
 
 export default function BorrowSummary() {
-  const { data, isLoading } = useGetBorrowSummaryQuery(undefined);
+  const { data, isLoading } = useGetBorrowSummaryQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
   const borrowedBooks = data?.data || [];
 
   return (
