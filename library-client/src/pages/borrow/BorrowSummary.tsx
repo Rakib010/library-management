@@ -1,47 +1,67 @@
+import { useGetBorrowSummaryQuery } from "@/redux/api/borrowApi";
+import type { BorrowFormValues } from "@/types";
+
 export default function BorrowSummary() {
-  // Placeholder data — replace with real data fetched from your API
-  const borrowedBooks = [
-    { title: "Book One", isbn: "1234567890", totalQuantity: 15 },
-    { title: "Book Two", isbn: "0987654321", totalQuantity: 7 },
-    { title: "Book Three", isbn: "1122334455", totalQuantity: 20 },
-  ];
+  const { data, isLoading } = useGetBorrowSummaryQuery(undefined);
+  const borrowedBooks = data?.data || [];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-md shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Borrow Summary</h1>
+    <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="bg-gradient-to-tr from-purple-50 via-indigo-50 to-blue-50 p-8 rounded-2xl shadow-xl">
+        <h1 className="text-4xl font-bold text-center text-indigo-700 mb-8 tracking-wide">
+          📊 Borrow Summary
+        </h1>
 
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Book Title
-            </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">ISBN</th>
-            <th className="border border-gray-300 px-4 py-2 text-right">
-              Total Quantity Borrowed
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {borrowedBooks.length === 0 ? (
-            <tr>
-              <td colSpan={3} className="text-center py-4 text-gray-500">
-                No borrow records found.
-              </td>
-            </tr>
-          ) : (
-            borrowedBooks.map(({ title, isbn, totalQuantity }, idx) => (
-              <tr key={idx} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">{title}</td>
-                <td className="border border-gray-300 px-4 py-2">{isbn}</td>
-                <td className="border border-gray-300 px-4 py-2 text-right">
-                  {totalQuantity}
-                </td>
+        <div className="overflow-x-auto rounded-xl shadow-md bg-white">
+          <table className="min-w-full table-auto border-separate border-spacing-y-2">
+            <thead className="bg-indigo-600 text-white rounded-lg">
+              <tr>
+                <th className="px-6 py-3 text-left text-sm font-semibold rounded-l-lg">
+                  📖 Book Title
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  🔢 ISBN
+                </th>
+                <th className="px-6 py-3 text-right text-sm font-semibold rounded-r-lg">
+                  📦 Total Borrowed
+                </th>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {borrowedBooks.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="text-center text-gray-500 py-6">
+                    No borrow records found.
+                  </td>
+                </tr>
+              ) : (
+                borrowedBooks.map((borrow: BorrowFormValues, index: number) => (
+                  <tr
+                    key={index}
+                    className="bg-white hover:bg-indigo-50 transition-all duration-200"
+                  >
+                    <td className="px-6 py-4 text-sm text-gray-800 font-medium">
+                      {borrow.book?.title || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {borrow.book?.isbn || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-right font-semibold text-indigo-700">
+                      {borrow.totalQuantity}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {isLoading && (
+          <p className="text-center mt-6 text-sm text-gray-500">
+            Loading summary...
+          </p>
+        )}
+      </div>
     </div>
   );
 }

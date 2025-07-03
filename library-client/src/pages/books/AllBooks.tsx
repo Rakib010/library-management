@@ -1,7 +1,6 @@
 import {
   useDeleteBookMutation,
   useGetBookQuery,
-  useUpdatedBookMutation,
 } from "@/redux/api/baseApi";
 
 import type { BookFormValues } from "@/types";

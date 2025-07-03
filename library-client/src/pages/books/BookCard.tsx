@@ -19,25 +19,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Link } from "react-router";
-import type { BookFormValues } from "@/types";
-
-type BorrowFormValues = {
-  quantity: number;
-  dueDate: string;
-};
+import type { BookFormValues, BorrowFormValues } from "@/types";
 
 export const BookCard = ({
   book,
   onDelete,
-  onBorrow,
 }: {
   book: BookFormValues;
   onDelete: (id: string) => void;
-  onBorrow: (bookId: string, data: BorrowFormValues) => void;
 }) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [borrowOpen, setBorrowOpen] = useState(false);
 
+  // handleDelete
   const handleConfirmDelete = () => {
     onDelete(book._id);
     setDeleteOpen(false);
@@ -45,19 +39,13 @@ export const BookCard = ({
 
   const borrowForm = useForm<BorrowFormValues>();
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    
-  } = borrowForm;
+  const { control, handleSubmit, reset } = borrowForm;
 
   const onSubmitBorrow = (data: BorrowFormValues) => {
     if (data.quantity > book.copies) {
       alert(`Quantity cannot exceed available copies (${book.copies})`);
       return;
     }
-    onBorrow(book._id, data);
     setBorrowOpen(false);
     reset();
   };
@@ -79,7 +67,7 @@ export const BookCard = ({
       {/* Action buttons */}
       <div className="flex flex-wrap gap-2 pt-2">
         <Button variant="outline" size="sm">
-          View
+          <Link to={`/bookDetails/${book._id}`}>View</Link>
         </Button>
         {/* updated */}
         <Button variant="outline" size="sm">

@@ -10,3 +10,8 @@ export type BookFormValues = {
     available?: boolean;
 };
 
+export type BorrowFormValues = {
+    book: BookFormValues
+    totalQuantity: number;
+    dueDate: string;
+};
