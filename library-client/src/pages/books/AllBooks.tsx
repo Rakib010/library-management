@@ -1,7 +1,4 @@
-import {
-  useDeleteBookMutation,
-  useGetBookQuery,
-} from "@/redux/api/baseApi";
+import { useDeleteBookMutation, useGetBookQuery } from "@/redux/api/baseApi";
 
 import type { BookFormValues } from "@/types";
 import { BookCard } from "./BookCard";
