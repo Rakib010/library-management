@@ -39,8 +39,6 @@ borrowSchema.static('CheckCopies', async function (bookId: string, quantity: num
     await book.save()
 });
 
-// 
-
 
 
 export const Borrow = model<IBorrow, BorrowMethods>("Borrow", borrowSchema)

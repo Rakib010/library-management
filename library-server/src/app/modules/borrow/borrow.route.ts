@@ -4,8 +4,8 @@ import { borrowBook, getBorrowBook } from "./borrow.controller"
 
 const borrowRoute = Router()
 
-borrowRoute.post('/api/borrow', borrowBook)
-borrowRoute.get('/api/borrow', getBorrowBook)
+borrowRoute.post('/borrow/:bookId', borrowBook)
+borrowRoute.get('/borrow-summary', getBorrowBook)
 
 
 

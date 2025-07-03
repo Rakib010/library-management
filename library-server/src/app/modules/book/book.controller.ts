@@ -62,7 +62,6 @@ const getBookById = async (req: Request, res: Response, next: NextFunction) => {
 // Update Book
 const updateBookById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
         const bookId = req.params.bookId
         const updatedBody = req.body
 

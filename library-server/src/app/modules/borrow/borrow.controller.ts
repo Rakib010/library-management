@@ -5,8 +5,9 @@ import { Borrow } from "./borrow.model";
 // Post Borrow a Book
 const borrowBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { bookId, quantity, dueDate } = req.body
-
+        const { quantity, dueDate } = req.body
+        const bookId = req.params.bookId
+      
         // instance method call
         await Borrow.CheckCopies(bookId, quantity)
 
