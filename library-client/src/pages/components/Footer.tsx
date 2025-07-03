@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#f7f9eb] py-4">
+    <footer className="bg-[#f7f9eb] py-10">
       <div className="w-11/12 mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-gray-700 text-sm">
         {/* Left: Logo */}
         <div className="mb-2 md:mb-0">
@@ -16,7 +16,7 @@ export const Footer = () => {
         </div>
 
         {/* Center: Text */}
-        <div className="mb-2 md:mb-0 text-center">
+        <div className="mb-2 md:mb-0 text-center font-semibold">
           Built with ❤️ for book lovers
         </div>
 
