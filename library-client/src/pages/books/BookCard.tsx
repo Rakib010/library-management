@@ -51,29 +51,54 @@ export const BookCard = ({
   };
 
   return (
-    <div className="bg-white rounded-xl border shadow-sm p-5 space-y-2">
-      <h3 className="text-xl font-semibold text-gray-800">{book.title}</h3>
-      <p className="text-sm text-gray-600">Author: {book.author}</p>
-      <p className="text-sm text-gray-600">Genre: {book.genre}</p>
-      <p className="text-sm text-gray-600">ISBN: {book.isbn}</p>
-      <p className="text-sm text-gray-600">Copies: {book.copies}</p>
-      <p className="text-sm">
-        Availability:{" "}
-        <span className={book.available ? "text-green-600" : "text-red-600"}>
-          {book.available ? "Available" : "Not Available"}
-        </span>
-      </p>
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 space-y-3 hover:shadow-lg transition-transform transform hover:-translate-y-1 duration-300">
+      <h3 className="text-xl font-bold text-gray-800 border-b pb-2">
+        {book.title}
+      </h3>
 
-      {/* Action buttons */}
-      <div className="flex flex-wrap gap-2 pt-2">
-        <Button variant="outline" size="sm">
+      <div className="space-y-1 text-sm text-gray-600">
+        <p>
+          <span className="font-medium text-gray-700">Author:</span>{" "}
+          {book.author}
+        </p>
+        <p>
+          <span className="font-medium text-gray-700">Genre:</span> {book.genre}
+        </p>
+        <p>
+          <span className="font-medium text-gray-700">ISBN:</span> {book.isbn}
+        </p>
+        <p>
+          <span className="font-medium text-gray-700">Copies:</span>{" "}
+          {book.copies}
+        </p>
+        <p className="flex items-center gap-2">
+          <span className="font-medium text-gray-700">Status:</span>
+          <span
+            className={`px-2 py-0.5 rounded-full text-xs font-semibold 
+        ${
+          book.available
+            ? "bg-green-100 text-green-700"
+            : "bg-red-100 text-red-700"
+        }`}
+          >
+            {book.available ? "Available" : "Not Available"}
+          </span>
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2 pt-4">
+        <Button variant="outline" size="sm" className="hover:bg-gray-100">
           <Link to={`/bookDetails/${book._id}`}>View</Link>
         </Button>
-        {/* updated */}
-        <Button variant="outline" size="sm">
+
+        <Button
+          variant="outline"
+          size="sm"
+          className="hover:bg-blue-100 text-blue-700"
+        >
           <Link to={`/editBook/${book._id}`}>Edit</Link>
         </Button>
-        {/* Delete  */}
+
         <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
           <DialogTrigger asChild>
             <Button variant="destructive" size="sm">
@@ -98,10 +123,17 @@ export const BookCard = ({
           </DialogContent>
         </Dialog>
 
-        {/* Borrow */}
         <Dialog open={borrowOpen} onOpenChange={setBorrowOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" disabled={!book.available}>
+            <Button
+              size="sm"
+              disabled={!book.available}
+              className={`${
+                book.available
+                  ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+            >
               Borrow
             </Button>
           </DialogTrigger>

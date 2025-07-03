@@ -23,7 +23,7 @@ export default function CategorySlider() {
   ];
 
   return (
-    <div className="py-10 px-6 bg-[#fdfbf7] max-w-7xl mx-auto">
+    <div className="py-10 px-6 bg-[#fdfbf7] max-w-7xl mx-auto my-10 rounded-lg">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-extrabold text-gray-900 leading-tight">
           Browse Books <br /> by Genre

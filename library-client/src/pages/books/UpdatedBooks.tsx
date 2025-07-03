@@ -54,15 +54,15 @@ export const UpdatedBooks = () => {
   if (isLoading) return <p className="text-center">Loading book data...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg border border-gray-200 mt-10">
-      <h2 className="text-3xl font-bold mb-8 text-gray-900 text-center">
-        Update Book Details
+    <div className="max-w-5xl mx-auto px-6 py-12 bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 my-10">
+      <h2 className="text-4xl font-extrabold mb-10 text-gray-800 text-center tracking-tight">
+        ✍️ Update Book Details
       </h2>
 
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          {/* Two column grid for inputs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+          {/* Two-column layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Title */}
             <FormField
               control={control}
@@ -70,12 +70,12 @@ export const UpdatedBooks = () => {
               rules={{ required: "Title is required" }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel className="font-semibold">Title</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter book title"
                       {...field}
-                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                      className="focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -90,12 +90,12 @@ export const UpdatedBooks = () => {
               rules={{ required: "Author is required" }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Author</FormLabel>
+                  <FormLabel className="font-semibold">Author</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter author's name"
                       {...field}
-                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                      className="focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -110,10 +110,10 @@ export const UpdatedBooks = () => {
               rules={{ required: "Genre is required" }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Genre</FormLabel>
+                  <FormLabel className="font-semibold">Genre</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="focus:ring-2 focus:ring-indigo-500">
                         <SelectValue placeholder="Select a genre" />
                       </SelectTrigger>
                     </FormControl>
@@ -138,12 +138,12 @@ export const UpdatedBooks = () => {
               rules={{ required: "ISBN is required" }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ISBN</FormLabel>
+                  <FormLabel className="font-semibold">ISBN</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="ISBN Number"
                       {...field}
-                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                      className="focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -161,13 +161,13 @@ export const UpdatedBooks = () => {
               }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Copies</FormLabel>
+                  <FormLabel className="font-semibold">Copies</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
                       placeholder="Number of copies"
                       {...field}
-                      className="focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                      className="focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -176,19 +176,19 @@ export const UpdatedBooks = () => {
             />
           </div>
 
-          {/* Description textarea full width */}
+          {/* Description full width */}
           <FormField
             control={control}
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel className="font-semibold">Description</FormLabel>
                 <FormControl>
                   <textarea
                     placeholder="Short summary"
                     {...field}
                     rows={4}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    className="w-full rounded-md border border-gray-300 px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </FormControl>
                 <FormMessage />
@@ -197,15 +197,20 @@ export const UpdatedBooks = () => {
           />
 
           {/* Buttons */}
-          <div className="flex justify-end gap-4">
-            <Button variant="outline" onClick={() => navigate(-1)}>
+          <div className="flex justify-end gap-4 pt-6">
+            <Button
+              variant="outline"
+              onClick={() => navigate(-1)}
+              className="border-gray-300 hover:bg-gray-100"
+            >
               Cancel
             </Button>
+
             <Button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md"
             >
-              Save Book
+              💾 Save Book
             </Button>
           </div>
         </form>

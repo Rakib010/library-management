@@ -1,13 +1,4 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -17,9 +8,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import type { BookFormValues } from "@/types";
-import { useAddNewBookMutation } from "@/redux/api/baseApi";
 import {
   Select,
   SelectContent,
@@ -27,53 +15,45 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useForm } from "react-hook-form";
+import type { BookFormValues } from "@/types";
+import { useAddNewBookMutation } from "@/redux/api/baseApi";
 import { toast } from "sonner";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export const AddBook = () => {
   const form = useForm<BookFormValues>();
-  const { handleSubmit, control, setError } = form;
+  const { handleSubmit, control, reset } = form;
   const navigate = useNavigate();
 
   const [createBook] = useAddNewBookMutation();
 
   const onSubmit = async (data: BookFormValues) => {
     try {
-      const newBook = {
-        ...data,
-        available: true,
-      };
+      const newBook = { ...data, available: true };
       await createBook(newBook).unwrap();
-      toast.success("Book added successfully!");
+      toast.success("📘 Book added successfully!");
       navigate("/allBooks");
-      form.reset();
+      reset();
     } catch (error: any) {
-      if (error?.data?.errors) {
-        error.data.errors.forEach((err: any) => {
-          setError(err.field as keyof BookFormValues, {
-            type: "server",
-            message: err.message,
-          });
-        });
-      } else {
+      if (error) {
         toast.error(error?.data?.message || "Something went wrong");
       }
     }
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Add New Book</Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>📚 New Book Information</DialogTitle>
-        </DialogHeader>
+    <div className="max-w-3xl mx-auto px-6 py-10">
+      <div className="bg-white rounded-xl shadow-xl border p-8">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+          📚 Add a New Book to the Library
+        </h1>
+        <p className="text-gray-600 text-center mb-8">
+          Fill out the form below to register a new book in the system.
+        </p>
 
         <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Title */}
             <FormField
               control={control}
@@ -99,7 +79,7 @@ export const AddBook = () => {
                 <FormItem>
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter author's name" {...field} />
+                    <Input placeholder="Author's full name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,7 +100,7 @@ export const AddBook = () => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a genre" />
+                        <SelectValue placeholder="Select genre" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -146,7 +126,7 @@ export const AddBook = () => {
                 <FormItem>
                   <FormLabel>ISBN</FormLabel>
                   <FormControl>
-                    <Input placeholder="ISBN Number" {...field} />
+                    <Input placeholder="e.g. 978-3-16-148410-0" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -161,7 +141,10 @@ export const AddBook = () => {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="Short summary of the book" {...field} />
+                    <Input
+                      placeholder="Short book summary (optional)"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,8 +156,8 @@ export const AddBook = () => {
               control={control}
               name="copies"
               rules={{
-                required: "Copies are required",
-                min: { value: 0, message: "Copies must be at least 0" },
+                required: "Copies required",
+                min: { value: 0, message: "Minimum 0" },
               }}
               render={({ field }) => (
                 <FormItem>
@@ -182,7 +165,7 @@ export const AddBook = () => {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Number of copies"
+                      placeholder="Total copies"
                       {...field}
                     />
                   </FormControl>
@@ -191,17 +174,20 @@ export const AddBook = () => {
               )}
             />
 
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline" type="button">
-                  Cancel
-                </Button>
-              </DialogClose>
+            {/* Submit Button */}
+            <div className="flex justify-end pt-4 gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => navigate("/allBooks")}
+              >
+                Cancel
+              </Button>
               <Button type="submit">Save Book</Button>
-            </DialogFooter>
+            </div>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
