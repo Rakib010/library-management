@@ -10,7 +10,15 @@ import cors from 'cors'
 const app: Application = express()
 
 //middlewares
-app.use(cors({ origin: "http://localhost:5173" }))
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://library-client-beta.vercel.app",
+        ],
+
+    })
+);
 app.use(express.json())
 app.use(globalErrorHandler)
 app.use(booksRoute)
