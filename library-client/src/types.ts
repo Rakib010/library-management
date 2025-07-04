@@ -15,4 +15,6 @@ export type BorrowFormValues = {
     totalQuantity: number;
     dueDate: string;
     quantity: number
+    isbn:number
+    title:string
 };
