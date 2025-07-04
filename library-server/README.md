@@ -1,25 +1,20 @@
 ## 📚 Library Management API
-
 A RESTful API for managing books (CRUD operations) and borrowing records, built with Node.js, Express, TypeScript, and MongoDB (Mongoose).
-
 This project provides endpoints to create, read, update, and delete books, as well as handle borrowing operations with proper validation, error handling, and aggregation reporting.
 
-## 🚀 Features
-
+### 🚀 Features
 - 📘 Add, update, delete, and fetch books
 - 📖 Borrow and return books
 - ✅ Validation and error handling
 - 📊 Borrow summary reports with aggregation
 - 🔐 Secure and structured API
 
-## 🛠️ Tech Stack
-
+### 🛠️ Tech Stack
 - Backend: Node.js, Express
 - Database: MongoDB, Mongoose
 - Tools: TypeScript
 
-## ⚙️ Setup Instructions
-
+### ⚙️ Setup Instructions
 - Clone the repository:
 
 ```bash
