@@ -14,8 +14,8 @@
 - Styling - Tailwind CSS / Shandcn
 
 
-### Installation
-#### Backend
+### 🔧 Installation & Setup
+#### ⚙️ Backend
 ```bash
 cd backend
 npm install
@@ -24,7 +24,7 @@ npm run dev
 - Ensure you have MongoDB running locally or connect to a cloud MongoDB URI.
 - Configure environment variables (.env) for database connectio
 
-#### Frontend
+#### 🖥️ Frontend
 ```
 cd frontend folder
 npm install
@@ -32,9 +32,13 @@ npm start
 ```
 - The frontend runs on http://localhost:3000 by default.
 
+
 ### 🔗 Live Demo
 Experience the application live here:  
 [**🚀 View Live Demo**](https://your-live-link.com)  
+
+
+
 
 
 
