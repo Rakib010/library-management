@@ -16,7 +16,7 @@ export const globalErrorHandler = (
     stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
   };
 
-  // ✅ Mongoose Validation Error (e.g., required, enum, minlength)
+  // Validation Error 
   if (error instanceof mongoose.Error.ValidationError) {
     statusCode = 400;
     errorResponse.message = "Validation Error";
@@ -26,7 +26,7 @@ export const globalErrorHandler = (
     }));
   }
 
-  // ✅ Mongoose CastError (e.g., invalid ObjectId)
+  // CastError 
   else if (error instanceof mongoose.Error.CastError) {
     statusCode = 400;
     errorResponse.message = "Invalid ID format";

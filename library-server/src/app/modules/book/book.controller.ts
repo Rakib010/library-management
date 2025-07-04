@@ -22,17 +22,33 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
 //Get All Books 
 const getBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { filter, sort, limit, sortBy } = req.query
+        const { sort, limit = "10", sortBy, page = "1", } = req.query
 
-        const doFilter = filter ? { genre: filter } : {}
+       // const doFilter = filter ? { genre: filter } : {}
         const sortOrder = sort === 'asc' ? 1 : -1
 
-        const data = await Book.find(doFilter).sort({ [sortBy as string]: sortOrder }).limit(Number(limit || 10))
+        const pageNumber = parseInt(page as string)
+        const limitNumber = parseInt(limit as string)
+        const skip = (pageNumber - 1) * limitNumber
+
+        const total = await Book.countDocuments()
+
+        // Query with pagination
+        const data = await Book.find()
+            .sort({ [sortBy as string]: sortOrder })
+            .skip(skip)
+            .limit(limitNumber)
 
         res.status(200).json({
             success: true,
             message: "Books retrieved successfully",
-            data
+            meta: {
+                total,
+                page: pageNumber,
+                limit: limitNumber,
+                totalPage: Math.ceil(total / limitNumber)
+            },
+            data,
         });
 
     } catch (error: any) {
