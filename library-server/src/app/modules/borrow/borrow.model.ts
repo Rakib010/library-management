@@ -12,7 +12,7 @@ export const borrowSchema = new Schema<IBorrow, BorrowMethods>({
     quantity: {
         type: Number,
         required: true,
-        min: [1, "Quantity must be a positive number"],
+        min: [0, "Quantity must be a positive number"],
         validate: {
             validator: Number.isInteger,
             message: "Quantity must be a whole number"
@@ -31,9 +31,9 @@ borrowSchema.static('CheckCopies', async function (bookId: string, quantity: num
 
     if (book.copies < quantity) throw new Error("Not enough copies available")
 
-    const available = book.copies - quantity
+    book.copies = book.copies - quantity
 
-    if (available === 0) {
+    if (book.copies === 0) {
         book.available = false
     }
     await book.save()
