@@ -23,7 +23,7 @@ export default function CategorySlider() {
   ];
 
   return (
-    <div className="py-10 px-6 bg-gradient-to-br from-white to-indigo-50 max-w-7xl mx-auto my-10 rounded-lg">
+    <div className="w-11/12 mx-auto py-10 px-6 bg-gradient-to-br from-white to-indigo-50 max-w-7xl  my-16 rounded-lg">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-extrabold text-gray-900 leading-tight">
           Browse Books <br /> by Genre

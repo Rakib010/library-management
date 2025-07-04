@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
@@ -7,11 +7,11 @@ export const Footer = () => {
       <div className="w-11/12 mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-gray-700 text-sm">
         {/* Left: Logo */}
         <div className="mb-2 md:mb-0">
-          <Link
-            to="/"
-            className="flex items-center gap-1 font-bold text-indigo-700 text-lg"
-          >
-            Next <span className="text-yellow-500">Page</span>
+          <Link to="/" className="flex items-center gap-2">
+            <BookOpen className="text-indigo-600 w-5 h-5" />
+            <h1 className="text-lg font-bold text-indigo-700 tracking-wide">
+              Next <span className="text-yellow-500">Page</span>
+            </h1>
           </Link>
         </div>
 
@@ -21,30 +21,38 @@ export const Footer = () => {
         </div>
 
         {/* Right: Social Icons */}
-        <div className="flex gap-4 text-yellow-500 ">
+        <div className="flex gap-4 text-yellow-500">
           <a
-            href="#"
-            aria-label="Facebook"
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
             className="hover:text-indigo-600 transition"
           >
             <Linkedin className="w-5 h-5" />
           </a>
           <a
-            href="#"
+            href="https://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Facebook"
             className="hover:text-indigo-600 transition"
           >
             <Facebook className="w-5 h-5" />
           </a>
           <a
-            href="#"
+            href="https://www.twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Twitter"
             className="hover:text-indigo-600 transition"
           >
             <Twitter className="w-5 h-5" />
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Instagram"
             className="hover:text-indigo-600 transition"
           >
