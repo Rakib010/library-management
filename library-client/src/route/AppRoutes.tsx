@@ -2,7 +2,7 @@ import App from "@/App";
 import { AddBook } from "@/pages/books/AddBook";
 import { AllBooks } from "@/pages/books/AllBooks";
 import BookDetails from "@/pages/books/BookDetails";
-import { UpdatedBooks } from "@/pages/books/updatedBooks";
+import { UpdatedBooks } from "@/pages/books/UpdatedBooks";
 import BorrowSummary from "@/pages/borrow/BorrowSummary";
 import Home from "@/pages/Home/Home";
 import { createBrowserRouter } from "react-router-dom";
@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/home",
+        path: "/",
         element: <Home />,
       },
       {

@@ -6,7 +6,7 @@ export const bookApi = createApi({
     tagTypes: ["books"],
     endpoints: (build) => ({
         getBook: build.query({
-            query: () => '/books'
+            query: (page = 1) => `/books?page=${page}`
         }),
         updatedBook: build.mutation({
             query: ({ bookId, data }) => ({

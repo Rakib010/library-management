@@ -2,13 +2,16 @@ import { useDeleteBookMutation, useGetBookQuery } from "@/redux/api/baseApi";
 
 import type { BookFormValues } from "@/types";
 import { BookCard } from "./BookCard";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export const AllBooks = () => {
+  const [page, setPage] = useState(1);
   const {
     data: books,
     isLoading,
     isError,
-  } = useGetBookQuery(undefined, {
+  } = useGetBookQuery(page, {
     pollingInterval: 1000,
     refetchOnFocus: true,
     refetchOnReconnect: true,
@@ -30,6 +33,22 @@ export const AllBooks = () => {
           books?.data?.map((book: BookFormValues, index: number) => (
             <BookCard key={index} book={book} onDelete={handleDelete} />
           ))}
+      </div>
+      <div className="flex justify-center items-center gap-4 mt-6">
+        <Button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+        >
+          ← Previous
+        </Button>
+        <span className="text-sm font-medium text-gray-700">Page {page}</span>
+        <Button
+          onClick={() => setPage(page + 1)}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md shadow-md"
+        >
+          Next →
+        </Button>
       </div>
     </div>
   );

@@ -23,12 +23,12 @@ export default function CategorySlider() {
   ];
 
   return (
-    <div className="py-10 px-6 bg-[#fdfbf7] max-w-7xl mx-auto my-10 rounded-lg">
+    <div className="py-10 px-6 bg-gradient-to-br from-white to-indigo-50 max-w-7xl mx-auto my-10 rounded-lg">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-extrabold text-gray-900 leading-tight">
+        <h2 className="text-2xl font-extrabold text-gray-900 leading-tight">
           Browse Books <br /> by Genre
         </h2>
-        <button className="text-yellow-500 font-semibold text-sm hover:underline transition">
+        <button className="text-yellow-500 font-semibold  hover:underline transition text-lg">
           Explore More Categories
         </button>
       </div>

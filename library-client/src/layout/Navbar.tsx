@@ -15,7 +15,7 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <div className="hidden md:flex gap-6 text-gray-700 font-medium text-sm">
-          <Link to="/home" className="hover:text-indigo-600 transition">
+          <Link to="/" className="hover:text-indigo-600 transition">
             Home
           </Link>
           <Link to="/allBooks" className="hover:text-indigo-600 transition">

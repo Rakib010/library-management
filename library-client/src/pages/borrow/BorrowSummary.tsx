@@ -9,7 +9,7 @@ export default function BorrowSummary() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 my-10">
-      <h1 className="text-4xl font-bold text-center mb-10 tracking-wide text-gray-900">
+      <h1 className="text-4xl font-bold text-center mb-10 tracking-wide text-indigo-700">
         📊 Borrow Summary
       </h1>
 
