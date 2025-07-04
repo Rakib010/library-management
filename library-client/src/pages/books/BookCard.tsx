@@ -163,7 +163,7 @@ export const BookCard = ({
                   name="quantity"
                   rules={{
                     required: "Quantity is required",
-                    min: { value: 1, message: "Minimum 1 copy" },
+                    min: { value: 0, message: "Minimum 1 copy" },
                     max: {
                       value: book.copies,
                       message: `Cannot exceed available copies (${book.copies})`,

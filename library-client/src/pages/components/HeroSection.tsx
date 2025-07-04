@@ -3,9 +3,9 @@ import book from "../../assets/book.png";
 
 export const HeroSection = () => {
   return (
-    <section className="bg-[#F7F9EB] min-h-[85vh] flex items-center justify-center px-4 py-8 font-serif">
+    <section className="bg-[#F7F9EB] min-h-[85vh] flex items-center justify-center px-4  font-serif">
       <div className="w-11/12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        {/* Left: Text */}
+        {/*  Text */}
         <div className="space-y-6 text-center md:text-left px-2 sm:px-0">
           <p className="text-sm text-gray-600 font-medium flex items-center justify-center md:justify-start gap-2">
             <span className="text-yellow-500 text-xl">⭐</span> Start your
@@ -30,14 +30,10 @@ export const HeroSection = () => {
           </div>
         </div>
 
-        {/* Right: Image */}
+        {/* Image */}
         <div className="w-full flex justify-center">
-          <div className="rounded-xl p-4 max-w-md w-full">
-            <img
-              src={book}
-              alt="Stack of books"
-              /* className="w-full max-w-full mx-auto rounded-lg object-contain" */
-            />
+          <div className="rounded-xl p-4 max-w-lg w-full">
+            <img src={book} alt="Stack of books" />
           </div>
         </div>
       </div>
