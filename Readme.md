@@ -1,4 +1,4 @@
-## 📚 Minimal Library Management System
+## 📚 Library Management
 
 ### 🚀 Project Overview
 - View a paginated list of books with sorting.
